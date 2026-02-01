@@ -7,11 +7,11 @@ public Course(String title,int credits){
 	this.credits=credits;
 }
 
-public String getTitle(){
+public String getCourseTitle(){
 	return this.title;
 }
 
-public int getCredits(){
+public int getCourseCredits(){
 	return this.credits;
 }
 }

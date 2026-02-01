@@ -15,13 +15,22 @@ public void registerCourse(Course c){
 	courses.add(c);
 }
 
+public void removeStudentCourse( String rmCourse){
+	if(courses.isEmpty()) System.out.println("The list is empty");
+	else if(courses.contains(rmCourse)){
+		courses.remove(rmCourse);
+	}else{
+		System.out.println("There was an error or the list doesn't contain that course");
+	}
+}
+
 public void listCourses(){
 	System.out.printf("\n %d \n", courses.size());
 	if(courses.size()==0){
 		System.out.println("There are no registered courses");
 	}
 	for(int i=0; i<courses.size();i++){
-		System.out.printf("%s ", courses.get(i).getTitle());
+		System.out.printf("%s ", courses.get(i).getCourseTitle());
 	}
 }
 

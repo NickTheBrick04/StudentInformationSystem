@@ -34,7 +34,7 @@ public static void saveProfessorsToFile(ArrayList<Professor> professors, String 
 public static void saveCoursesToFile(ArrayList<Course> courses,String fileName){
 	try(PrintWriter fileS = new PrintWriter(fileName)){
 		for(Course p: courses){
-			fileS.println(p.getTitle()+ " " + p.getCredits());
+			fileS.println(p.getCourseTitle()+ " " + p.getCourseCredits());
 		}
 	}catch(FileNotFoundException e){
 		System.out.println("There was an error: " + e.getMessage());
@@ -129,6 +129,23 @@ public ArrayList<Course> loadCourseFromFile(String fileName){
 		System.out.println("Error: File not found - " + fileName);
 	}
 	return loadedCourses;
+}
+
+public static void listAllCourses(ArrayList<Course> allCourses){
+	System.out.println("");
+	if(allCourses.isEmpty()) System.out.println("There are no courses in list");
+	for(Course c: allCourses){
+		System.out.printf("Course: %s | Credits: %d \n", c.getCourseTitle(), c.getCourseCredits());
+	}
+	System.out.println("");
+}
+public static void listAllProfessors(ArrayList<Professor> allProfessors){
+	System.out.println("");
+	if(allProfessors.isEmpty()) System.out.println("There are no professors in list");
+	for(Professor p: allProfessors){
+		System.out.printf("Professor: %s | ID: %s", p.getName(), p.getID());
+	}
+	System.out.println("");
 }
 
 }
