@@ -81,13 +81,13 @@ public ArrayList<Student> loadStudentsFromFile(String filename) {
 public ArrayList<Professor> loadProfessorFromFile(String fileName){
 	ArrayList<Professor> professors = new ArrayList<>();
 	File file = new File(fileName);
-	
+	System.out.println("Working directory: " + new File(".").getAbsolutePath());
 	try(Scanner sc = new Scanner(file)){
 		while(sc.hasNextLine()){
 			String line = sc.nextLine().trim();
 			if(line.isEmpty()) continue;
 			
-			String[] parts = line.split("[,//s]+");
+			String[] parts = line.split("[,\\s]+");
 			if(parts.length!=2) continue;
 			
 			String name = parts[0];
@@ -110,7 +110,7 @@ public ArrayList<Course> loadCourseFromFile(String fileName){
 			String line = sc.nextLine().trim();
 			if(line.isEmpty()) continue;
 			
-			String[] parts = line.split("[,//s]+");
+			String[] parts = line.split("[,\\s]+");
 			if(parts.length != 2) continue;
 			
 			String name = parts[0];
@@ -143,10 +143,21 @@ public static void listAllProfessors(ArrayList<Professor> allProfessors){
 	System.out.println("");
 	if(allProfessors.isEmpty()) System.out.println("There are no professors in list");
 	for(Professor p: allProfessors){
-		System.out.printf("Professor: %s | ID: %s", p.getName(), p.getID());
+		System.out.printf("Professor: %s | ID: %s\n", p.getName(), p.getID());
 	}
-	System.out.println("");
+	System.out.println("\n");
 }
+
+public static Professor findProfessor(String searchProf, ArrayList<Professor> allProfessors){
+	for(Professor p: allProfessors){
+		searchProf = searchProf.toLowerCase();
+		if(p.getName().toLowerCase().equals(searchProf)){
+			return p;
+		}
+	}
+	return null;
+}
+	
 
 }
 

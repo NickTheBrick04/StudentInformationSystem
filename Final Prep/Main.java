@@ -73,16 +73,16 @@ public class Main {
 		switch(answer){
 			//Access files containing information from previous sessions and add to arrayLists
 			case 1:
-				System.out.println("=== Import Menu ===");
-				System.out.println("1. Import previous student data");
-				System.out.println("2. Import previous professor data");
-				System.out.println("3. Import previous course data");
-				System.out.println("4. Back");
 				int answer3 = 0;
-				answer3 = in.nextInt();
-				in.nextLine();
 				
 				while(answer3 != 4){
+					System.out.println("=== Import Menu ===");
+					System.out.println("1. Import previous student data");
+					System.out.println("2. Import previous professor data");
+					System.out.println("3. Import previous course data");
+					System.out.println("4. Back");
+					answer3 = in.nextInt();
+					in.nextLine();
 					switch(answer3){
 						
 						case 1:
@@ -164,7 +164,7 @@ public class Main {
 									break;
 									
 								}
-							}
+							}break;
 							
 						
 					// Add new course to allCourses and ucf
@@ -199,7 +199,7 @@ public class Main {
 									break;
 							}
 							
-						}
+						}break;
 							
 						//Add new Professor to allProfessors and ucf
 						case 4:
@@ -221,7 +221,14 @@ public class Main {
 										break;
 										
 									case 2: 
-										
+										System.out.println("What Professor do you want to look for?");
+										String searchProf = in.nextLine();
+										Professor returnProf = DataManager.findProfessor(searchProf,allProfessors);
+										if(returnProf == null){
+											 System.out.println("Couldn't find the professor\n");
+											 break;
+										 }
+										System.out.printf("\nName: %s | ID: %s\n", returnProf.getName(), returnProf.getID());
 										break;
 										
 									case 3:
@@ -235,20 +242,62 @@ public class Main {
 										break;
 										
 									case 4:
-									
+										System.out.println("What is the professors name?");
+										String removeProfName = in.nextLine();
+										Professor returnRemoveProf = DataManager.findProfessor(removeProfName,allProfessors);
+										if(returnRemoveProf==null){
+											System.out.println("\nCouldn't find professor\n");
+											break;
+										}
+										System.out.println("\nProfessor removed!\n");
+										allProfessors.remove(returnRemoveProf);
 										break;
 										
 									case 5:
-									
+										System.out.println("What is the professors name?");
+										String courseProfName = in.nextLine();
+										Professor returnCourseProf = DataManager.findProfessor(courseProfName,allProfessors);
+										if(returnCourseProf==null){
+											System.out.println("\nCouldn't find the professor\n");
+											break;
+										}
+										returnCourseProf.listTeachingCourses();
 										break;
 										
 									case 6: 
-									
-										break;
-							
+										System.out.println("What is the professors name?");
+										String addRemoveProf=in.nextLine();
+										Professor returnAddRemoveProf = DataManager.findProfessor(addRemoveProf,allProfessors);
+										if(returnAddRemoveProf == null){
+											System.out.println("\nCouldn't find the professor\n");
+											break;
+										}
+										System.out.println("Would you like to add or remove a course?");
+										String courseProf = in.nextLine();
+										if(courseProf.equals("add")){
+											DataManager.listAllCourses(allCourses);
+											System.out.println("Which course to add?");
+											String profCourseName = in.nextLine();
+											profCourseName = profCourseName.toLowerCase();
+											for(Course n: allCourses){
+												if(profCourseName.equals(n.getCourseTitle().toLowerCase())){
+													
+													returnAddRemoveProf.assignCourse(n);
+													break;
+												}
+											}
+										}
+										if(courseProf.equals("remove")){
+											returnAddRemoveProf.listTeachingCourses();
+											System.out.println("Which course to remove?");
+											String profCourseName = in.nextLine();
+											profCourseName = profCourseName.toLowerCase();
+											returnAddRemoveProf.removeTeachingCourse(profCourseName);
+											break;
+										}
 							
 						}
-					}
+					}break;
 							
 						// access student specific menu, view all, search specific, and add a student
 						case 5:
@@ -390,7 +439,7 @@ public class Main {
 												break;
 		}
 							
-	}
+	} break;
 }
 }
 		System.out.printf("==Goodbye!==");

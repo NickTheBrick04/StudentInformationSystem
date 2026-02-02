@@ -10,15 +10,34 @@ public Professor(String name, String id){
 public void assignCourse(Course c){
 	//adds course to teaching list
 	teachingCourses.add(c);
+	System.out.println("\nCourse assigned\n");
+}
+
+public void removeTeachingCourse( String rmCourse){
+	if(teachingCourses.isEmpty()) System.out.println("The list is empty");
+	for(Course n: teachingCourses){
+		if(n.getCourseTitle().toLowerCase().equals(rmCourse)){
+			
+			teachingCourses.remove(n);
+			System.out.println("\nThe course was removed\n");
+			return;
+		}
+	}
+		System.out.println("There was an error or the list doesn't contain that course");
+	
 }
 
 public void listTeachingCourses(){
 	if(teachingCourses.size()==0){
 		System.out.println("This teacher has no courses");
 	}
-	for(int i=0; i<teachingCourses.size();i++){
-		System.out.printf("Course %d : %s \n",i,teachingCourses.get(i));
+	int count =1;
+	System.out.printf("\n");
+	for(Course c: teachingCourses){
+		System.out.printf("Course #: %d | Title: %s | Credits: %d \n",count,c.getCourseTitle(),c.getCourseCredits());
+		count++;
 	}
+	System.out.printf("\n");
 }
 
 @Override
