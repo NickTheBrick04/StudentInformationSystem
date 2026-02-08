@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class DataManager{
@@ -15,11 +16,11 @@ private static String ensureCSV(String fileName){
 }
 	
 	// going to save each students information to .csv file
-public static void saveStudentsToFile(ArrayList<Student> students, String fileName){
+public static void saveStudentsToFile(HashMap<String,Student> students, String fileName){
 	fileName = DataManager.ensureCSV(fileName);
 	try(PrintWriter fileS=new PrintWriter(fileName)){
 		fileS.println("name,id,tuition");
-		for(Student s: students){
+		for(Student s: students.values()){
 			fileS.printf("%s,%s,%.2f\n",s.getName(),s.getID(),s.getTuition());
 		}
 	}
@@ -29,11 +30,11 @@ public static void saveStudentsToFile(ArrayList<Student> students, String fileNa
 }
 
 
-public static void saveProfessorsToFile(ArrayList<Professor> professors, String fileName){
+public static void saveProfessorsToFile(HashMap<String,Professor> professors, String fileName){
 	fileName = DataManager.ensureCSV(fileName);
 	try(PrintWriter fileS=new PrintWriter(fileName)){
 		fileS.println("name,id");
-		for(Professor p: professors){
+		for(Professor p: professors.values()){
     		fileS.printf("%s,%s\n", p.getName(), p.getID());
 }
 		}catch(FileNotFoundException e){
@@ -41,11 +42,11 @@ public static void saveProfessorsToFile(ArrayList<Professor> professors, String 
 		}
 }
 
-public static void saveCoursesToFile(ArrayList<Course> courses,String fileName){
+public static void saveCoursesToFile(HashMap<String, Course> courses,String fileName){
 	fileName = DataManager.ensureCSV(fileName);
 	try(PrintWriter fileS = new PrintWriter(fileName)){
 		fileS.println("title,credits");
-		for(Course p: courses){
+		for(Course p: courses.values()){
 			fileS.printf("%s,%d\n",p.getCourseTitle(), p.getCourseCredits());
 		}
 	}catch(FileNotFoundException e){
@@ -130,48 +131,8 @@ public static ArrayList<Course> loadCourseFromFile(String fileName){
 	return loadedCourses;
 }
 
-public static void listAllCourses(ArrayList<Course> allCourses){
-	System.out.println("");
-	if(allCourses.isEmpty()) System.out.println("There are no courses in list");
-	for(Course c: allCourses){
-		System.out.printf("Course: %s | Credits: %d \n", c.getCourseTitle(), c.getCourseCredits());
-	}
-	System.out.println("");
-}
-public static void listAllProfessors(ArrayList<Professor> allProfessors){
-	System.out.println("");
-	if(allProfessors.isEmpty()) System.out.println("There are no professors in list");
-	for(Professor p: allProfessors){
-		System.out.printf("Professor: %s | ID: %s\n", p.getName(), p.getID());
-	}
-	System.out.println("");
 }
 
-public static Professor findProfessor(String searchProf, ArrayList<Professor> allProfessors){
-	for(Professor p: allProfessors){
-		searchProf = searchProf.toLowerCase();
-		if(p.getName().toLowerCase().equals(searchProf)){
-			return p;
-		}
-	}
-	return null;
-}
-
-public static Course searchCourse(String sCourse, ArrayList<Course> allCourses){
-	if(allCourses.isEmpty()){
-		System.out.println("The list is empty");
-		return null;
-	}
-	sCourse = sCourse.toLowerCase();
-	for(Course c: allCourses){
-		if(c.getCourseTitle().toLowerCase().equals(sCourse)){
-			return c;
-		}
-		}
-		System.out.println("Couldn't Find"+sCourse);
-		return null;
-	}
-}
 
 
 
