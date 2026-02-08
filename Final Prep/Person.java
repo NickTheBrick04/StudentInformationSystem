@@ -1,6 +1,6 @@
 public abstract class Person{
-private String name;
-private String id;
+private final String name;
+private final String id;
 
 public Person(String name, String id){
 	this.name=name;

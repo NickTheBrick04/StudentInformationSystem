@@ -1,6 +1,6 @@
 public class Course{
-private String title;
-private int credits;
+private final String title;
+private final int credits;
 
 public Course(String title,int credits){
 	this.title=title;
