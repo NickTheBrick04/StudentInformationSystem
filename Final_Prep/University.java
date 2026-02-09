@@ -1,3 +1,6 @@
+package Final_Prep;
+
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -104,13 +107,13 @@ public static Professor findProfessor(String searchProf, ArrayList<Professor> al
 	return null;
 }
 
-public static Course searchCourse(String sCourse, ArrayList<Course> allCourses){
+public static Course searchCourse(String sCourse, HashMap<String, Course> allCourses){
 	if(allCourses.isEmpty()){
 		System.out.println("The list is empty");
 		return null;
 	}
 	sCourse = sCourse.toLowerCase();
-	for(Course c: allCourses){
+	for(Course c: allCourses.values()){
 		if(c.getCourseTitle().toLowerCase().equals(sCourse)){
 			return c;
 		}

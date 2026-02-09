@@ -1,3 +1,5 @@
+package Final_Prep;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -169,7 +171,7 @@ public class Main {
                                 case 2 -> {
                                     System.out.println("What course are you looking for?");
                                     String sCourse = in.nextLine();
-                                    Course c = University.searchCourse(sCourse, allCourses);
+                                    Course c = University.searchCourse(sCourse, courseByTitle.values());
                                     if(c != null){
                                         System.out.printf("\nCourse Exists\n");
                                         System.out.printf("\n Course Title: %s | Credits: %d\n", c.getCourseTitle(),c.getCourseCredits());

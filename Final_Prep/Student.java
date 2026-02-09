@@ -1,3 +1,6 @@
+package Final_Prep;
+
+
 import java.util.ArrayList;
 
 public class Student extends Person implements Payable{

@@ -1,3 +1,5 @@
+package Final_Prep;
+
 import java.util.ArrayList;
 
 public class Professor extends Person{
