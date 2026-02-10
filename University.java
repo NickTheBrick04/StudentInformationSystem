@@ -1,7 +1,3 @@
-package Final_Prep;
-
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class University{
@@ -35,16 +31,48 @@ public Course getCourse(String title){
     return courses.get(title.toLowerCase());
 }
 
-public void addStudent(Student s){
-	students.put(s.getID().toLowerCase(),s);
+public HashMap<String, Student> getStudents(){
+    return students;
 }
 
-public void addProfessor(Professor p){
-	professors.put(p.getID().toLowerCase(),p);
+public HashMap<String, Professor> getProfessors(){
+    return professors;
 }
 
-public void addCourse(Course c){
-    courses.put(c.getCourseTitle().toLowerCase(), c);
+public HashMap<String, Course> getCourses(){
+    return courses;
+}
+
+
+public boolean addStudent(Student s){
+    String key = s.getID().trim().toLowerCase();
+
+    if(students.containsKey(key))
+        return false;
+
+    students.put(key, s);
+    return true;
+}
+
+
+public boolean  addProfessor(Professor p){
+	String key = p.getID().trim().toLowerCase();
+
+	if(professors.containsKey(key))
+		return false;
+
+	professors.put(key, p);
+	return true;
+}
+
+public boolean addCourse(Course c){
+	String key = c.getCourseTitle().trim().toLowerCase();
+
+	if(courses.containsKey(key))
+		return false;
+
+	courses.put(key, c);
+	return true;
 }
 
 public void listThings(){
@@ -76,50 +104,46 @@ public void removeProfessor(String id){
     professors.remove(id.toLowerCase());
 }
 
-public void removeCourse(String title){
-    courses.remove(title.toLowerCase());
+public boolean removeCourse(String title){
+    return courses.remove(title.toLowerCase()) != null;
     }
 
-public static void listAllCourses(HashMap<String,Course> allCourses){
+public void listAllCourses(){
 	System.out.println("");
-	if(allCourses.isEmpty()) System.out.println("There are no courses in list");
-	for(Course c: allCourses.values()){
+	if(this.courses.isEmpty()) System.out.println("There are no courses in list");
+	for(Course c: this.courses.values()){
 		System.out.printf("Course: %s | Credits: %d \n", c.getCourseTitle(), c.getCourseCredits());
 	}
 	System.out.println("");
 }
-public static void listAllProfessors(ArrayList<Professor> allProfessors){
+public void listAllProfessors(){
 	System.out.println("");
-	if(allProfessors.isEmpty()) System.out.println("There are no professors in list");
-	for(Professor p: allProfessors){
+	if(this.professors.isEmpty()) System.out.println("There are no professors in list");
+	for(Professor p: this.professors.values()){
 		System.out.printf("Professor: %s | ID: %s\n", p.getName(), p.getID());
 	}
 	System.out.println("");
 }
 
-public static Professor findProfessor(String searchProf, ArrayList<Professor> allProfessors){
-	for(Professor p: allProfessors){
-		searchProf = searchProf.toLowerCase();
-		if(p.getName().toLowerCase().equals(searchProf)){
-			return p;
-		}
+public Professor findProfessor(String searchProf){
+	searchProf = searchProf.trim().toLowerCase();
+	if(this.professors.containsKey(searchProf)){
+		return this.professors.get(searchProf);
 	}
 	return null;
 }
 
-public static Course searchCourse(String sCourse, HashMap<String, Course> allCourses){
-	if(allCourses.isEmpty()){
+public Course searchCourse(String sCourse){
+	if(this.courses.isEmpty()){
 		System.out.println("The list is empty");
 		return null;
 	}
 	sCourse = sCourse.toLowerCase();
-	for(Course c: allCourses.values()){
-		if(c.getCourseTitle().toLowerCase().equals(sCourse)){
-			return c;
-		}
-		}
-		System.out.println("Couldn't Find"+sCourse);
-		return null;
+	if(this.courses.containsKey(sCourse)){
+		return courses.get(sCourse);
 	}
+	System.out.println("Couldn't Find"+sCourse);
+	return null;
+}
 }
 

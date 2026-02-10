@@ -1,18 +1,13 @@
-package Final_Prep;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         
         University ucf = new University("UCF");
-		HashMap<String, Student> studentsByID = new HashMap<>();
-		HashMap<String, Professor> professorByID = new HashMap<>();
-		HashMap<String, Course> courseByTitle = new HashMap<>();
-
+		
 		int answer = 0;
 		try (Scanner in = new Scanner(System.in)) {
 		while(answer != 7){
@@ -61,9 +56,8 @@ public class Main {
                             
                             for(Student p: loadedStudents){
 								String id = p.getID().trim().toLowerCase();
-                                if(!studentsByID.containsKey(id)){
-                                    studentsByID.put(id, p);
-                                    ucf.addStudent(p);
+                                if(!ucf.addStudent(p)){
+                                    System.out.println("Duplicate ID skipped: " + p.getID());
                                 }
 
                             }
@@ -82,10 +76,10 @@ public class Main {
                             else System.out.println("\n--- Loaded Professors from File ---\n");
                             for(Professor p: loadedProfessors){
 								String id = p.getID().trim().toLowerCase();
-                                if(!professorByID.containsKey(id)){
-                                    professorByID.put(id, p);
-                                    ucf.addProfessor(p);
+                                if(!ucf.addProfessor(p)){
+                                    System.out.println("Duplicate ID Skipped: "+p.getID());
                                 }
+                                
                             }
                 }
                         
@@ -102,9 +96,8 @@ public class Main {
 
                             for(Course p: loadedCourses){
 								String title = p.getCourseTitle().trim().toLowerCase();
-                                if(!courseByTitle.containsKey(title)){
-                                    courseByTitle.put(title, p);
-                                    ucf.addCourse(p);
+                                if(!ucf.addCourse(p)){
+                                    System.out.println("Duplicate Course Skipped: "+p.getCourseTitle());
                                 }
                             }
                 }
@@ -133,19 +126,19 @@ public class Main {
                                 case 1 -> {
                                     System.out.println("What would you like to name the file?");
                                     fileName= in.nextLine();
-                                    DataManager.saveStudentsToFile(studentsByID,fileName);
+                                    DataManager.saveStudentsToFile(ucf.getStudents(),fileName);
                                 }
                                 
                                 case 2 -> {
                                     System.out.println("What would you like to name the file?");
                                     fileName = in.nextLine();
-                                    DataManager.saveProfessorsToFile(professorByID,fileName);
+                                    DataManager.saveProfessorsToFile(ucf.getProfessors(),fileName);
                                 }
                                     
                                 case 3 -> {
                                     System.out.println("What would you like to name the file?");
                                     fileName = in.nextLine();
-                                    DataManager.saveCoursesToFile(courseByTitle,fileName);
+                                    DataManager.saveCoursesToFile(ucf.getCourses(),fileName);
                                 }
                                     
                             }
@@ -166,12 +159,12 @@ public class Main {
                                 answer5 = in.nextInt();
                                 in.nextLine();
                             switch(answer5){
-                                case 1 -> University.listAllCourses(courseByTitle);
+                                case 1 -> ucf.listAllCourses();
                                     
                                 case 2 -> {
                                     System.out.println("What course are you looking for?");
                                     String sCourse = in.nextLine();
-                                    Course c = University.searchCourse(sCourse, courseByTitle.values());
+                                    Course c = ucf.searchCourse(sCourse);
                                     if(c != null){
                                         System.out.printf("\nCourse Exists\n");
                                         System.out.printf("\n Course Title: %s | Credits: %d\n", c.getCourseTitle(),c.getCourseCredits());
@@ -186,20 +179,19 @@ public class Main {
                                     int courseNumber = in.nextInt();
                                     in.nextLine();
                                     Course d1 = new Course(courseName , courseNumber);
-                                    allCourses.add(d1);
                                     ucf.addCourse(d1);
                                 }
 
                                 case 4->{
                                     System.out.println("What course would you like to remove?");
-                                    University.listAllCourses(allCourses);
+                                    ucf.listAllCourses();
                                     String rCourse = in.nextLine();
-                                    Course c = University.searchCourse(rCourse, allCourses);
-                                    if(c!=null){
-                                        System.out.println("Removing "+ rCourse);
-                                        allCourses.remove(c);
-                                        ucf.removeCourse(c.getCourseTitle());
+                                    if(ucf.removeCourse(rCourse)){
+                                        System.out.println("Course removed");
+                                    }else{
+                                        System.out.println("Course couldn't be removed.");
                                     }
+
                                 }
                             }
                             
@@ -221,12 +213,12 @@ public class Main {
                                 answer7 = in.nextInt();
                                 in.nextLine();
                                 switch(answer7){
-                                    case 1 -> University.listAllProfessors(allProfessors);
+                                    case 1 -> University.listAllProfessors(professorByID);
                                         
                                     case 2 -> {
                                         System.out.println("What Professor do you want to look for?");
                                         String searchProf = in.nextLine();
-                                        Professor returnProf = University.findProfessor(searchProf,allProfessors);
+                                        Professor returnProf = University.findProfessor(searchProf,professorByID);
                                         if(returnProf == null){
                                              System.out.println("Couldn't find the professor\n");
                                          }
@@ -242,28 +234,28 @@ public class Main {
                                         System.out.println("What is their ID number?");
                                         String profID = in.next();
                                         Professor f1 = new Professor(profName, profID);
-                                        allProfessors.add(f1);
+                                        professorByID.put(profID, f1);
                                         ucf.addProfessor(f1);
                                     }
                                         
                                     case 4 -> {
-                                        System.out.println("What is the professors name?");
-                                        String removeProfName = in.nextLine();
-                                        Professor returnRemoveProf = University.findProfessor(removeProfName,allProfessors);
+                                        System.out.println("What is the professors ID?");
+                                        String removeProfID = in.nextLine();
+                                        Professor returnRemoveProf = professorByID.get(removeProfID);
                                         if(returnRemoveProf==null){
                                             System.out.println("\nCouldn't find professor\n");
                                         }
                                         else {
                                             System.out.println("\nProfessor removed!\n");
-                                            allProfessors.remove(returnRemoveProf);
+                                            professorByID.remove(removeProfID);
                                             ucf.removeProfessor(returnRemoveProf.getID());
                                         }
                                     }
                                         
                                     case 5 -> {
-                                        System.out.println("What is the professors name?");
+                                        System.out.println("What is the professors ID?");
                                         String courseProfName = in.nextLine();
-                                        Professor returnCourseProf = University.findProfessor(courseProfName,allProfessors);
+                                        Professor returnCourseProf = professorByID.get(courseProfName);
                                         if(returnCourseProf==null){
                                             System.out.println("\nCouldn't find the professor\n");
                                         }
@@ -273,29 +265,26 @@ public class Main {
                                     }
                                         
                                     case 6 -> {
-                                        System.out.println("What is the professors name?");
+                                        System.out.println("What is the professors ID?");
                                         String addRemoveProf=in.nextLine();
-                                        Professor returnAddRemoveProf = University.findProfessor(addRemoveProf,allProfessors);
+                                        Professor returnAddRemoveProf = professorByID.get(addRemoveProf);
                                         if(returnAddRemoveProf == null){
                                             System.out.println("\nCouldn't find the professor\n");
+                                            break;
                                         }
-                                        else {
-                                            System.out.println("Would you like to add or remove a course?");
-                                            String courseProf = in.nextLine();
-                                            if(courseProf.equals("add")){
-                                                University.listAllCourses(allCourses);
-                                                System.out.println("Which course to add?");
-                                                String profCourseName = in.nextLine();
-                                                profCourseName = profCourseName.toLowerCase();
-                                                for(Course n: allCourses){
-                                                    if(profCourseName.equals(n.getCourseTitle().toLowerCase())){
-                                                        
-                                                        returnAddRemoveProf.assignCourse(n);
-                                                        break;
+                                        
+                                        System.out.println("Would you like to add or remove a course?");
+                                        String choice = in.nextLine();
+                                        if(choice.equals("add")){
+                                            University.listAllCourses(courseByTitle);
+                                            System.out.println("Which course to add?");
+                                            String profCourseName = in.nextLine();
+                                            if(courseByTitle.containsKey(profCourseName)){    
+                                                    returnAddRemoveProf.assignCourse(courseByTitle.get(profCourseName));                                                        break;
                                                     }
-                                                }
+                                                
                                             }
-                                            if(courseProf.equals("remove")){
+                                            if(choice.equals("remove")){
                                                 returnAddRemoveProf.listTeachingCourses();
                                                 System.out.println("Which course to remove?");
                                                 String profCourseName = in.nextLine();
@@ -307,7 +296,7 @@ public class Main {
                             
                         }
                     }
-            }
+            
                             
                         // access student specific menu, view all, search specific, and add a student
                         case 5 -> {
@@ -340,16 +329,14 @@ public class Main {
             case 2 -> {
                 System.out.println("Enter Student ID");
                 String studentSearch = in.nextLine();
-                for(Student q: allStudents){
-                    studentSearch = studentSearch.toLowerCase();
-                    if(q.getName().toLowerCase().equals(studentSearch)){
+                if(studentsByID.containsKey(studentSearch)){
+                        Student q = studentsByID.get(studentSearch);
                         System.out.println("Student Found");
                         System.out.printf("Student: %s | ID: %s | Tuition: %.2f\n", q.getName(),q.getID(),q.getTuition());
                         break;
                     }else{
-                        System.out.printf("Couldn't find %s\n", studentSearch);
+                        System.out.printf("Couldn't find student with ID: %s\n", studentSearch);
                     }}
-            }
             
             //Add new student to allStudents and to ucf
             case 3 -> {
@@ -357,53 +344,45 @@ public class Main {
                 String studName = in.next();
                 System.out.println("What is their ID number?");
                 String studID = in.next();
+                studID = studID.trim().toLowerCase();
                 System.out.println("How much tuition are they paying now?");
                 int studTuition = in.nextInt();
                 in.nextLine();
                 Student g1 = new Student(studName, studID, studTuition);
-                allStudents.add(g1);
+                studentsByID.put(studID, g1);
                 ucf.addStudent(g1);
             }
                 
             case 4 -> {
-                System.out.println("What student would you like to remove?");
+                System.out.println("What is the students ID?");
                 String rmStudent = in.nextLine();
-                if(allStudents.isEmpty()){
+                if(studentsByID.isEmpty()){
                      System.out.println("\nStudents list is empty... exiting\n");
-                } else {
-                    rmStudent = rmStudent.toLowerCase();
-                    boolean isRemoved = false;
-                    for(Student s: allStudents){
-                        if(s.getName().toLowerCase().equals(rmStudent)){
-                            allStudents.remove(s);
-                            ucf.removeStudent(s.getID());
-                            System.out.println("\nRemoving "+s.getName());
-                            isRemoved = true;
-                            break;
-                            
-                        }
+                     break;
+                }
+                    if(studentsByID.containsKey(rmStudent)){
+                        Student s = studentsByID.get(rmStudent);
+                        studentsByID.remove(rmStudent, s);
+                        ucf.removeStudent(s.getID());
+                        System.out.println("\nRemoving "+s.getName());
+                        break;                            
                     }
                     
-                    if(isRemoved == false){
+                    
+                    if(!studentsByID.containsKey(rmStudent)){
                         System.out.println("\nCouldn't find " + rmStudent);	
                     }
                 }
-            }
                 
             case 5 -> {
-                System.out.println("What students courses would you like to view?");
+                System.out.println("What is the students ID?");
                 String coursesStudent = in.nextLine();
-                if(allStudents.isEmpty()){
+                if(studentsByID.isEmpty()){
                      System.out.println("\nStudents list is empty... exiting\n");
                 } else {
-                    coursesStudent = coursesStudent.toLowerCase();
-                    for(Student s: allStudents){
-                        if(s.getName().toLowerCase().equals(coursesStudent)){
-                            s.listCourses();
-                        
-                            break;
-                        }
-                        }
+                    if(studentsByID.containsKey(coursesStudent)){
+                        studentsByID.get(coursesStudent).listCourses();
+                    }
                 }
             }
                         
@@ -411,40 +390,33 @@ public class Main {
                 System.out.println("Would you like to remove or add a course?");
                 String cR = in.nextLine();
                 cR = cR.toLowerCase();
-                System.out.println("What student would you like to edit?");
+                System.out.println("What is the students ID");
                 String studentC = in.nextLine();
-                studentC=studentC.toLowerCase();
-                boolean studentCourseFound = false;
-        
-                for(Student s: allStudents){
-                    if(s.getName().toLowerCase().equals(studentC)){
-                        if(cR.equals("remove")){
-                            System.out.println("What course would you like to remove?");
-                            String courseR = in.nextLine();
-                            s.removeStudentCourse(courseR);
-                            studentCourseFound = true;
-                            
+                if(studentsByID.containsKey(studentC)) {
+                    if(cR.equals("remove")){
+                        University.listAllCourses(courseByTitle);
+                        System.out.println("What course would you like to remove?");
+                        String courseR = in.nextLine();
+                        if(courseByTitle.containsKey(courseR)){
+                            studentsByID.get(studentC).removeStudentCourse(courseR);
+                        }else{
+                            System.out.println("Couldn't find that course.");
                         }
-                        if(cR.equals("add")){
-                            System.out.println("What course would you like to add");
-                            University.listAllCourses(allCourses);
-                            String courseA = in.nextLine();
-                            courseA = courseA.toLowerCase();
-                            for(Course c: allCourses){
-                                if(c.getCourseTitle().toLowerCase().equals(courseA)){
-                                    s.registerCourse(c);
-                                    studentCourseFound = true;
-                                    System.out.println("Added the Course");
-                                    
-                                }
-                            }
-                            System.out.println("Couldn't find the course");
-                        
+                }
+                    if(cR.equals("add")){
+                        University.listAllCourses(courseByTitle);
+                        System.out.println("What course would you like to add");
+                        String courseA = in.nextLine();
+                        courseA = courseA.toLowerCase();
+                        if(courseByTitle.containsKey(courseA)){
+                            studentsByID.get(studentC).registerCourse(courseByTitle.get(courseA));
+                        }else{
+                            System.out.println("Couldn't find that course.");
                         }
-                        if(studentCourseFound == true) break;	
-                            }
-                        }
-                        if(studentCourseFound == false) System.out.println("Couldn't find student");
+                    }
+                } else {
+                    System.out.println("Couldn't find student");
+                }
             }
             
         }

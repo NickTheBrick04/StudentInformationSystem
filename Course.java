@@ -1,4 +1,3 @@
-package Final_Prep;
 
 public class Course{
 private final String title;
