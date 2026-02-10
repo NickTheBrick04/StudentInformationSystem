@@ -96,12 +96,12 @@ public void listThings(){
 	
 }
 
-public void removeStudent(String id){
-	students.remove(id.toLowerCase());
+public boolean removeStudent(String id){
+	return students.remove(id.toLowerCase()) != null;
 }
 
-public void removeProfessor(String id){
-    professors.remove(id.toLowerCase());
+public boolean removeProfessor(String id){
+    return professors.remove(id.toLowerCase()) != null;
 }
 
 public boolean removeCourse(String title){
@@ -123,14 +123,6 @@ public void listAllProfessors(){
 		System.out.printf("Professor: %s | ID: %s\n", p.getName(), p.getID());
 	}
 	System.out.println("");
-}
-
-public Professor findProfessor(String searchProf){
-	searchProf = searchProf.trim().toLowerCase();
-	if(this.professors.containsKey(searchProf)){
-		return this.professors.get(searchProf);
-	}
-	return null;
 }
 
 public Course searchCourse(String sCourse){
