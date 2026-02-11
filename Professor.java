@@ -2,7 +2,7 @@
 import java.util.ArrayList;
 
 public class Professor extends Person{
-private final ArrayList<Course> teachingCourses;
+private ArrayList<Course> teachingCourses;
 
 public Professor(String name, String id){
 	super(name,id);
@@ -29,7 +29,7 @@ public void removeTeachingCourse( String rmCourse){
 }
 
 public void listTeachingCourses(){
-	if(teachingCourses.isEmpty()){
+	if(teachingCourses.size()==0){
 		System.out.println("This teacher has no courses");
 	}
 	int count =1;
