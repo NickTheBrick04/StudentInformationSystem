@@ -57,28 +57,34 @@ public static void saveCoursesToFile(HashMap<String, Course> courses,String file
 
 
 
-public static ArrayList<Student> loadStudentsFromFile(String filename) {
-    ArrayList<Student> students = new ArrayList<>();
-    File file = new File(DataManager.ensureCSV(filename));
+	public static ArrayList<Student> loadStudentsFromFile(String filename) {
+	    ArrayList<Student> students = new ArrayList<>();
+	    File file = new File(DataManager.ensureCSV(filename));
 
-    try (Scanner sc = new Scanner(file)) {
-		//skip header
-		if(sc.hasNextLine()) sc.nextLine();
-        while (sc.hasNextLine()) {
-            String line = sc.nextLine().trim();
-            if (line.isEmpty()) continue;
+	    try (Scanner sc = new Scanner(file)) {
+	        while (sc.hasNextLine()) {
+	            String line = sc.nextLine().trim();
+	            if (line.isEmpty() || line.startsWith("<<<<<<<") || line.startsWith("=======") || line.startsWith(">>>>>>>")) continue;
+	            if (line.equalsIgnoreCase("name,id,tuition")) continue;
 
-            String[] parts = line.split(","); // handles comma or space separation
-            if (parts.length != 3) continue;
+	            String[] parts = line.split(",");
+	            if (parts.length != 3) continue;
 
-            String name = parts[0].trim();
-            String id = parts[1].trim();
-            double tuition = Double.parseDouble(parts[2].trim());
+	            String name = parts[0].trim();
+	            String id = parts[1].trim();
+	            String tuitionText = parts[2].trim();
+	            if (name.equalsIgnoreCase("name") && id.equalsIgnoreCase("id") && tuitionText.equalsIgnoreCase("tuition")) continue;
+	            double tuition;
+	            try {
+	            	tuition = Double.parseDouble(tuitionText);
+	            } catch (NumberFormatException e) {
+	            	continue;
+	            }
 
-            students.add(new Student(name, id, tuition));
-        }
-    } catch (Exception e) {
-        System.out.println("Error loading file: " + e.getMessage());
+	            students.add(new Student(name, id, tuition));
+	        }
+	    } catch (Exception e) {
+	        System.out.println("Error loading file: " + e.getMessage());
     }
 
     return students;
@@ -89,19 +95,20 @@ public static ArrayList<Professor> loadProfessorFromFile(String fileName){
 	File file = new File(DataManager.ensureCSV(fileName));
 
 	try(Scanner sc = new Scanner(file)){
-		if(sc.hasNextLine()) sc.nextLine();
-		while(sc.hasNextLine()){
-			String line = sc.nextLine().trim();
-			if(line.isEmpty()) continue;
-			
-			String[] parts = line.split(",");
-			if(parts.length!=2) continue;
-			
-			String name = parts[0];
-			String id = parts[1];
-			
-			professors.add(new Professor(name, id));
-		}
+			while(sc.hasNextLine()){
+				String line = sc.nextLine().trim();
+				if(line.isEmpty() || line.startsWith("<<<<<<<") || line.startsWith("=======") || line.startsWith(">>>>>>>")) continue;
+				if(line.equalsIgnoreCase("name,id")) continue;
+				
+				String[] parts = line.split(",");
+				if(parts.length!=2) continue;
+				
+				String name = parts[0].trim();
+				String id = parts[1].trim();
+				if(name.equalsIgnoreCase("name") && id.equalsIgnoreCase("id")) continue;
+				
+				professors.add(new Professor(name, id));
+			}
 	}catch (FileNotFoundException e){
 		System.out.println("Error loading file: " + fileName);
 	}
@@ -112,17 +119,16 @@ public static ArrayList<Course> loadCourseFromFile(String fileName){
 	ArrayList<Course> loadedCourses = new ArrayList<>();
 	File file = new File(DataManager.ensureCSV(fileName));
 	
-	try(Scanner sc = new Scanner(file)){
-	if(sc.hasNextLine()) sc.nextLine();
-		while(sc.hasNextLine()){
-			String line = sc.nextLine().trim();
-			if(line.isEmpty()) continue;
-			
-			String[] parts = line.split(",");
-			if(parts.length != 2) continue;
-			
-			String name = parts[0];
-			int credits=Integer.parseInt(parts[1]);
+		try(Scanner sc = new Scanner(file)){
+			while(sc.hasNextLine()){
+				String line = sc.nextLine().trim();
+				if(line.isEmpty() || line.equalsIgnoreCase("title,credits")) continue;
+				
+				String[] parts = line.split(",");
+				if(parts.length != 2) continue;
+				
+				String name = parts[0].trim();
+				int credits=Integer.parseInt(parts[1].trim());
 
 			loadedCourses.add(new Course(name, credits));
 		}
@@ -133,7 +139,6 @@ public static ArrayList<Course> loadCourseFromFile(String fileName){
 }
 
 }
-
 
 
 
