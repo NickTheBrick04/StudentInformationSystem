@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 
 public class Student extends Person implements Payable{
@@ -13,6 +14,7 @@ public Student(String name, String id,double tuition){
 public void registerCourse(Course c){
 	// adds a course to arraylist
 	courses.add(c);
+	calculateTuition();
 }
 
 public void removeStudentCourse(String title){
@@ -26,13 +28,16 @@ public void removeStudentCourse(String title){
 }
 
 public void listCourses(){
-	System.out.printf("\n %d \n", courses.size());
 	if(courses.isEmpty()){
-		System.out.println("There are no registered courses");
+		System.out.println("This student has no courses");
 	}
+	int count =1;
+	System.out.printf("\n");
 	for(Course c: courses){
-		System.out.printf("%s ", c.getCourseTitle());
+		System.out.printf("Course #: %d | Title: %s | Credits: %d \n",count,c.getCourseTitle(),c.getCourseCredits());
+		count++;
 	}
+	System.out.printf("\n");
 }
 
 @Override

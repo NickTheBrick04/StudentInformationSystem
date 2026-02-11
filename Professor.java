@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 
 public class Professor extends Person{
@@ -16,7 +17,7 @@ public void assignCourse(Course c){
 public void removeTeachingCourse( String rmCourse){
 	if(teachingCourses.isEmpty()) System.out.println("The list is empty");
 	for(Course n: teachingCourses){
-		if(n.getCourseTitle().toLowerCase().equals(rmCourse)){
+		if(n.getCourseTitle().toLowerCase().equals(rmCourse.trim().toLowerCase())){
 			
 			teachingCourses.remove(n);
 			System.out.println("\nThe course was removed\n");

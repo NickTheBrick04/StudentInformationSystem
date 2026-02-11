@@ -1,3 +1,4 @@
+
 public class Course{
 private final String title;
 private final int credits;
