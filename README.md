@@ -39,8 +39,9 @@ Save current in-memory data to CSV files for backup or later reuse.
 ### 3) Student Management
 - List all students
 - Search by ID
-- Add a student
-- Remove a student
+- Add/Remove a student
+- View student course registration
+- Register/Remove courses for students
 
 ### 4) Professor Management
 - List all professors
@@ -55,7 +56,7 @@ Save current in-memory data to CSV files for backup or later reuse.
 - Add/remove courses
 
 ### 6) University-Level Summary
-View aggregate university data from a dedicated menu option.
+View total university data from a dedicated menu option.
 
 ---
 
