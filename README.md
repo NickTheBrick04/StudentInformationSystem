@@ -2,10 +2,11 @@
 This project demonstrates practical OOP design, data structures, and file I/O in Java while simulating a real-world record management system.
 
 A menu-driven Java application for storing and managing core university records from the terminal.
-This project models a small university database with three primary entities:
+The project models a small university database with three primary entities:
 - **Students**
 - **Professors**
 - **Courses**
+
 Users can import records from CSV files, manage data in memory through interactive menus, and export updated data back to CSV.
 
 ---
@@ -16,7 +17,7 @@ The University Database System is designed for learning and practicing object-or
 
 - Class modeling, inheritance, and abstraction (`Person`, `Student`, `Professor`)
 - Interfaces (`Payable`)
-- Collection management with `ArrayList` & `HashMap`
+- Collection management with `ArrayList` and `HashMap`
 - File I/O and CSV serialization/deserialization (`DataManager`)
 - Interactive command-line workflows using `Scanner`
 
@@ -24,17 +25,7 @@ The app is intentionally lightweight and does not require external dependencies 
 
 ---
 
-## Major Revisions
-
-- Enforced separation of concerns between UI, data model, and file handling
-- Centralized all records inside `University` using HashMaps
-- Replaced ArrayLists with HashMaps to achieve O(1) average lookups
-- Reduced duplicated state and simplified class responsibilities
-- Used Git branching for safe refactoring
-
----
-
-## Core Features
+## Features
 
 ### 1) Data Import
 Load saved records from CSV files for:
@@ -65,6 +56,21 @@ Save current in-memory data to CSV files for backup or later reuse.
 
 ### 6) University-Level Summary
 View aggregate university data from a dedicated menu option.
+
+---
+
+## Demo
+![University_Project](https://github.com/user-attachments/assets/70daf2d3-8b50-4e54-80f9-f7c7f011c5ad)
+
+---
+
+## Key Improvements
+
+- Enforced separation of concerns between UI, data model, and file handling
+- Centralized all records inside `University` using HashMaps
+- Replaced ArrayLists with HashMaps to achieve O(1) average lookups
+- Reduced duplicated state and simplified class responsibilities
+- Used Git branching for safe refactoring
 
 ---
 
@@ -129,7 +135,7 @@ From these menus, you can navigate into submenus and perform operations.
 - JDK 17 or later
 - A terminal (bash, zsh, PowerShell, cmd, etc.)
   OR
-- Any IDE (IntelliJ, VS Code, Eclipse)
+- Any IDE (IntelliJ, VS Code, or Eclipse)
 
 ### Verify Java Installation
 
@@ -139,7 +145,6 @@ javac -version
 ```
 
 ## Build and Run in terminal
-![University_Project](https://github.com/user-attachments/assets/70daf2d3-8b50-4e54-80f9-f7c7f011c5ad)
 
 From the project root directory:
 
@@ -163,7 +168,7 @@ java Main
 2. Enter `1` for **Import Menu**
 3. Choose object type (`student/professor/course`)
 4. Enter file (`students/professors/courses`)
-(Recommended you import all files provided in data)
+(Recommended: import all sample files provided in `/data`)
 
 ### Manage Data
 
@@ -199,4 +204,12 @@ Confirm:
 - CSV structure matches parser expectations
 
 ---
+
+## Learning Outcomes
+
+- Designed a multi-class OOP system with clear separation of concerns
+- Optimized data access from O(n) to O(1) using HashMaps
+- Practiced file parsing and serialization using .csv format
+- Used Git branching to safely refactor
+- Used class modeling, inheritance, and abstraction
 
