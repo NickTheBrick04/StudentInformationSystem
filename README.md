@@ -94,7 +94,7 @@ View aggregate university data from a dedicated menu option.
 ---
 
 ## Project Structure
-
+```text
 .
 ├── Main.java
 ├── University.java
@@ -109,7 +109,7 @@ View aggregate university data from a dedicated menu option.
 │   ├── professors.csv
 │   └── courses.csv
 └── README.md
-
+```
 ---
 
 ## How the Program Works
